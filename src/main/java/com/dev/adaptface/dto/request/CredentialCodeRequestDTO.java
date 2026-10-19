@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 public class CredentialCodeRequestDTO {
 
     @NotBlank(message = "Código é obrigatório")
-    @Size(min = 4, message = "O código deve possuir no mínimo 4 caracteres")
+    @Size(min = 4, max = 64, message = "O código deve possuir entre 4 e 64 caracteres")
     private String code;
 
     public CredentialCodeRequestDTO() {

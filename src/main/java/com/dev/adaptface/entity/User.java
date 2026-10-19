@@ -46,6 +46,8 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
+    private Long authVersion = 0L;
+
 	private String phone;
 
 	private LocalDate birthDate;
@@ -121,6 +123,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+    public long getAuthVersion() {
+        return authVersion == null ? 0L : authVersion;
+    }
+
+    public void setAuthVersion(Long authVersion) {
+        this.authVersion = authVersion;
+    }
 
 	public String getPhone() {
 		return phone;

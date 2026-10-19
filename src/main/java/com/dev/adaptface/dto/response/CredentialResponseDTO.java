@@ -11,6 +11,8 @@ public class CredentialResponseDTO {
 
     private Boolean hasFace;
 
+    private String faceModel;
+
     private Boolean hasRfid;
 
     private Boolean hasCode;
@@ -40,6 +42,14 @@ public class CredentialResponseDTO {
 
     public void setHasFace(Boolean hasFace) {
         this.hasFace = hasFace;
+    }
+
+    public String getFaceModel() {
+        return faceModel;
+    }
+
+    public void setFaceModel(String faceModel) {
+        this.faceModel = faceModel;
     }
 
     public Boolean getHasRfid() {

@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccessLogRepository extends JpaRepository<AccessLog, Long> {
 
-    Page<AccessLog> findByEnrollmentUserIdOrderByLoggedAtDesc(Long userId, Pageable pageable);
+    Page<AccessLog> findAllByOrderByLoggedAtDescIdDesc(Pageable pageable);
+
+    Page<AccessLog> findByEnrollmentUserIdOrderByLoggedAtDescIdDesc(Long userId, Pageable pageable);
 }

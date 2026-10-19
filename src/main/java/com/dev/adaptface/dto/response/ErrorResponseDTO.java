@@ -1,6 +1,7 @@
 package com.dev.adaptface.dto.response;
 
 import java.time.LocalDateTime;
+import com.dev.adaptface.entity.enums.AccessResult;
 
 /**
  * Formato padrão de erro da API (usado pelo GlobalExceptionHandler).
@@ -16,6 +17,8 @@ public class ErrorResponseDTO {
     private String message;
 
     private String path;
+
+    private AccessResult result;
 
     public ErrorResponseDTO() {
     }
@@ -58,5 +61,13 @@ public class ErrorResponseDTO {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public AccessResult getResult() {
+        return result;
+    }
+
+    public void setResult(AccessResult result) {
+        this.result = result;
     }
 }

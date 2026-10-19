@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PastOrPresent;
 
 /**
  * Criação de usuário. registrationNumber/period/course valem para STUDENT; department vale para EMPLOYEE.
@@ -17,6 +19,7 @@ import jakarta.validation.constraints.Size;
 public class UserRequestDTO {
 
     @NotBlank(message = "Nome é obrigatório")
+    @Size(max = 255)
     private String name;
 
     @NotBlank(message = "CPF é obrigatório")
@@ -25,14 +28,17 @@ public class UserRequestDTO {
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
+    @Size(max = 255)
     private String email;
 
     @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 8, message = "A senha deve possuir no mínimo 8 caracteres")
+    @Size(min = 8, max = 72, message = "A senha deve possuir entre 8 e 72 caracteres")
     private String password;
 
+    @Size(max = 255)
     private String phone;
 
+    @PastOrPresent
     private LocalDate birthDate;
 
     private Gender gender;
@@ -40,15 +46,20 @@ public class UserRequestDTO {
     @NotNull(message = "Tipo de usuário é obrigatório")
     private UserType userType;
 
+    @Positive
     private Integer registrationNumber;
     
     @NotNull(message = "ID da instituição é obrigatório")
-    private Integer institutionId;
+    @Positive
+    private Long institutionId;
 
+    @Size(max = 255)
     private String period;
 
+    @Size(max = 255)
     private String course;
 
+    @Size(max = 255)
     private String department;
 
     public UserRequestDTO() {
@@ -57,10 +68,10 @@ public class UserRequestDTO {
     public UserRequestDTO(@NotBlank(message = "Nome é obrigatório") String name,
 			@NotBlank(message = "CPF é obrigatório") @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 números") String cpf,
 			@NotBlank(message = "Email é obrigatório") @Email(message = "Email inválido") String email,
-			@NotBlank(message = "Senha é obrigatória") @Size(min = 8, message = "A senha deve possuir no mínimo 8 caracteres") String password,
+			@NotBlank(message = "Senha é obrigatória") @Size(min = 8, max = 72, message = "A senha deve possuir entre 8 e 72 caracteres") String password,
 			String phone, LocalDate birthDate, Gender gender,
 			@NotNull(message = "Tipo de usuário é obrigatório") UserType userType, Integer registrationNumber,
-			@NotNull(message = "ID da instituição é obrigatório") Integer institutionId, String period, String course,
+			@NotNull(message = "ID da instituição é obrigatório") Long institutionId, String period, String course,
 			String department) {
 		this.name = name;
 		this.cpf = cpf;
@@ -149,11 +160,11 @@ public class UserRequestDTO {
         this.registrationNumber = registrationNumber;
     }
 
-    public Integer getInstitutionId() {
+    public Long getInstitutionId() {
 		return institutionId;
 	}
 
-	public void setInstitutionId(Integer institutionId) {
+	public void setInstitutionId(Long institutionId) {
 		this.institutionId = institutionId;
 	}
 

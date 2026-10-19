@@ -1,8 +1,50 @@
 package com.dev.adaptface.controller;
 
+import com.dev.adaptface.dto.request.EnrollmentRequestDTO;
+import com.dev.adaptface.dto.request.EnrollmentStatusRequestDTO;
+import com.dev.adaptface.dto.response.EnrollmentResponseDTO;
+import com.dev.adaptface.service.EnrollmentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * Endpoints de matrículas.
  */
+@RestController
+@RequestMapping("/enrollments")
+@SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("hasRole('EMPLOYEE')")
 public class EnrollmentController {
 
+    private final EnrollmentService enrollmentService;
+
+    public EnrollmentController(EnrollmentService enrollmentService) {
+        this.enrollmentService = enrollmentService;
+    }
+
+    @PostMapping
+    public ResponseEntity<EnrollmentResponseDTO> create(@Valid @RequestBody EnrollmentRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(enrollmentService.create(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EnrollmentResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(enrollmentService.findById(id));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<EnrollmentResponseDTO> updateStatus(@PathVariable Long id,
+            @Valid @RequestBody EnrollmentStatusRequestDTO request) {
+        return ResponseEntity.ok(enrollmentService.updateStatus(id, request));
+    }
 }

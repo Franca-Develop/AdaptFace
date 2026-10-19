@@ -35,6 +35,7 @@ public class AccessLog {
     @Column(nullable = false)
     private AccessResult result;
 
+    @Column(precision = 50, scale = 12)
     private BigDecimal calculatedDistance;
 
     private String denialReason;

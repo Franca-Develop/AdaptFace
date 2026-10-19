@@ -17,12 +17,9 @@ adaptface/
 │   ├── request/                   O que a API recebe (com validações @NotBlank, @Email...)
 │   └── response/                  O que a API devolve (nunca devolve entity nem senha)
 │
-│   -- criar só quando tiver o primeiro arquivo (por isso não existem ainda) --
-├── config/                        SecurityConfig, OpenApiConfig, PasswordEncoder
-├── security/                      JwtService, JwtAuthenticationFilter
-├── exception/                     BusinessException, NotFoundException, GlobalExceptionHandler
-├── mapper/                        Conversão entity <-> DTO (se o service ficar poluído)
-└── client/                        Chamada ao serviço externo de reconhecimento facial (se houver)
+├── config/                        SecurityConfig, JsonConfig, OpenApiConfig, PasswordEncoder
+├── security/                      JWT, API key, limite de corpo e erros seguros
+└── exceptions/                    BusinessException, NotFoundException, GlobalExceptionHandler
 ```
 
 Regra de dependência (sempre nesse sentido, nunca ao contrário):
@@ -56,32 +53,32 @@ Relações: `Institution 1—N User`, `User 1—1 Student|Employee`, `User 1—1
 | RegistroAcessoService / AcessoService | AccessLogService / AccessService |
 | `*RequestDTO` / `*ResponseDTO` | mesmos sufixos, em `dto/request` e `dto/response` |
 
-## 4. Quem faz o quê (services e controllers estão vazios de propósito)
+## 4. Quem faz o quê
 
 | Controller | Service | Repositories | Endpoints sugeridos |
 |---|---|---|---|
 | AuthController | AuthService | UserRepository | `POST /auth/login` |
-| UserController | UserService | UserRepository, StudentRepository, EmployeeRepository, InstitutionRepository | `POST /users`, `GET /users/{id}` |
+| InstitutionController | InstitutionService | InstitutionRepository | `GET`, `POST /institutions` |
+| UserController | UserService | UserRepository, StudentRepository, EmployeeRepository, InstitutionRepository | `POST|GET /users`, `GET|PUT /users/{id}` |
 | EnrollmentController | EnrollmentService | EnrollmentRepository, UserRepository | `POST /enrollments`, `PATCH /enrollments/{id}/status` |
 | CredentialController | CredentialService | CredentialRepository, EnrollmentRepository | `PUT /enrollments/{id}/credentials/face`, `.../rfid`, `.../code`, `GET .../credentials` |
 | AccessController | AccessService, AccessLogService | CredentialRepository, AccessLogRepository | `POST /access/validate` (chamado pela máquina), `GET /access/logs?userId=` |
 
-## 5. Ordem sugerida para terminar o back-end
+## 5. Fluxo para executar o back-end
 
-1. Conferir `application.properties` (MySQL) e subir a aplicação com o `contextLoads` passando.
-2. `exception/`: `GlobalExceptionHandler` devolvendo `ErrorResponseDTO`.
-3. `config/` + `security/`: `PasswordEncoder` (BCrypt), `SecurityConfig` e JWT. Sem isso o Spring Security bloqueia todos os endpoints.
-4. `AuthService` + `AuthController` (login).
-5. `UserService` + `UserController` (cria User + Student/Employee na mesma transação).
-6. `EnrollmentService` + `EnrollmentController`.
-7. `CredentialService` + `CredentialController` (salvar `accessCode` com hash).
-8. `AccessService` + `AccessLogService` + `AccessController` (criar `AccessValidationRequestDTO`).
+1. Definir `JWT_SECRET`, `MACHINE_API_KEY` e `BOOTSTRAP_KEY`.
+2. Configurar o MySQL por `DB_URL`, `DB_USER` e `DB_PASSWORD`.
+3. Executar `mvnw.cmd spring-boot:run`.
+4. Chamar uma vez `POST /auth/bootstrap` com `X-Bootstrap-Key`.
+5. Usar o JWT retornado nos endpoints administrativos.
+6. Usar `X-API-Key` em `POST /access/validate`.
 
 ## 6. Pendências e decisões em aberto
 
-- **Instituição no cadastro de usuário:** `User.institution` é obrigatório, mas `UserRequestDTO` não recebe `institutionId`. Decidir se vem no body ou do usuário logado.
-- **Embedding facial:** hoje é `TEXT`. Decidir o formato (JSON de floats) e quem gera (biblioteca Java ou serviço externo em `client/`).
-- **Comparação facial:** `findByEnrollmentActiveTrue()` carrega todas as credenciais ativas para comparar em memória. Serve para protótipo; com muitos usuários precisa de outra estratégia.
+- **Embedding facial:** DeepFace/ArcFace/OpenCV gera 512 valores. O Spring normaliza, persiste em JSON e compara distância de cosseno entre modelos iguais; vetores legados não são convertidos automaticamente.
+- **Comparação facial:** `findFacialCredentials()` carrega credenciais com vínculo de usuário, inclusive inativas, para identificar antes de autorizar. Códigos também incluem inativos na comparação. Consultas em memória são adequadas ao protótipo, não constituem estratégia validada de grande escala.
+- **Histórico:** negativas semânticas e desconhecidos são registrados; requisições sem autenticação ou contrato estrutural válido não viram tentativas biométricas. Nenhuma imagem ou embedding vai ao histórico.
+- **Auditoria:** resultados verificáveis em `AUDIT.md`; roteiro aditivo em `MIGRATION.md`.
 - **Lazy loading:** as relações são `LAZY` e `open-in-view=false`. Converta para DTO dentro do método `@Transactional` do service.
-- **`gender`:** hoje é `Character`. Se quiser, vira enum.
+- **`gender`:** usa o enum `Gender`.
 - **Mensagens de validação:** estão em português (texto que o usuário final vê). Identificadores de código estão em inglês.

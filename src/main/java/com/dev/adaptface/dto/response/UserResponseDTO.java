@@ -1,6 +1,7 @@
 package com.dev.adaptface.dto.response;
 
 import java.time.LocalDate;
+import com.dev.adaptface.entity.enums.Gender;
 import com.dev.adaptface.entity.enums.UserType;
 
 /**
@@ -22,7 +23,7 @@ public class UserResponseDTO {
 
     private LocalDate birthDate;
 
-    private Character gender;
+    private Gender gender;
 
     private UserType userType;
 
@@ -93,11 +94,11 @@ public class UserResponseDTO {
         this.birthDate = birthDate;
     }
 
-    public Character getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

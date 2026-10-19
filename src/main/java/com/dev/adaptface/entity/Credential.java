@@ -34,6 +34,9 @@ public class Credential {
     @Column(columnDefinition = "json")
     private List<Float> faceEmbedding;
 
+    @Column(length = 64)
+    private String faceModel;
+
     @Column(unique = true)
     private String rfidTag;
     
@@ -65,6 +68,14 @@ public class Credential {
 
     public void setFaceEmbedding(List<Float> faceEmbedding) {
         this.faceEmbedding = faceEmbedding;
+    }
+
+    public String getFaceModel() {
+        return faceModel;
+    }
+
+    public void setFaceModel(String faceModel) {
+        this.faceModel = faceModel;
     }
 
     public String getRfidTag() {
