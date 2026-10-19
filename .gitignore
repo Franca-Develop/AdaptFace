@@ -35,3 +35,4 @@ build/
 ### Eclipse workspace ###
 .metadata/
 .runtime/
+.env

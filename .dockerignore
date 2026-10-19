@@ -1,0 +1,14 @@
+.git
+.github
+.idea
+.metadata
+.mvn
+.runtime
+.settings
+target
+*.iml
+*.log
+.env
+docs
+scripts
+src/test

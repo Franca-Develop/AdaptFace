@@ -83,3 +83,31 @@ Uma decisão de negócio retorna HTTP 200 com `result=GRANTED` e `name`, ou `res
 Para produção, use HTTPS, usuário MySQL com permissões mínimas, segredos persistidos fora do repositório e `DB_SCHEMA_MODE=validate` após revisar a [migração segura](docs/MIGRATION.md). O modo `update` continua restrito à conveniência de desenvolvimento. Desative Swagger quando não necessário usando `SPRINGDOC_API_DOCS_ENABLED=false` e `SPRINGDOC_SWAGGER_UI_ENABLED=false`.
 
 A [auditoria técnica](docs/AUDIT.md) registra resultados, arquivos alterados e limitações. Testes MySQL adicionais só são habilitados por `AUDIT_MYSQL_URL`, com esquema novo `adaptface_audit_<hex>` em `127.0.0.1:3306`, e `AUDIT_MYSQL_USER`/`AUDIT_MYSQL_PASSWORD`. Nunca aponte esses testes para o banco de uso real. `scripts/audit_http_contract.py` é exclusivamente para uma instância HTTP temporária desse ambiente, não para o servidor normal.
+
+## Docker
+
+O Compose executa a API e um MySQL 8.4 isolado. O banco não é publicado na máquina e seus dados ficam no volume `adaptface_mysql_data`.
+
+Crie o arquivo local de variáveis e substitua todos os valores de exemplo:
+
+```powershell
+Copy-Item .env.example .env
+$jwt = [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+$machineKey = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLower()
+$bootstrapKey = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLower()
+```
+
+Coloque os três valores gerados em `JWT_SECRET`, `MACHINE_API_KEY` e `BOOTSTRAP_KEY` no `.env`. O arquivo `.env` é ignorado pelo Git.
+
+Valide e inicie:
+
+```powershell
+docker compose config --quiet
+docker compose up --build -d
+docker compose ps
+docker compose logs -f api
+```
+
+A API ficará em `http://localhost:8080`, ou na porta definida em `API_PORT`. Para parar sem apagar o banco, use `docker compose down`. Não use `docker compose down -v` em um ambiente com dados que precisam ser preservados.
+
+Em produção, aplique a migração revisada antes de definir `DB_SCHEMA_MODE=validate`. A imagem roda como usuário sem privilégios, não contém segredos e não inclui testes, relatórios ou arquivos locais no contexto final.
