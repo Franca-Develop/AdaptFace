@@ -2,9 +2,9 @@ package com.dev.adaptface.service;
 
 import com.dev.adaptface.dto.request.AccessValidationRequestDTO;
 import com.dev.adaptface.dto.response.AccessLogResponseDTO;
-import com.dev.adaptface.entity.AccessLog;
-import com.dev.adaptface.entity.Enrollment;
-import com.dev.adaptface.entity.enums.AccessResult;
+import com.dev.adaptface.entities.AccessLog;
+import com.dev.adaptface.entities.Enrollment;
+import com.dev.adaptface.entities.enums.AccessResult;
 import com.dev.adaptface.repository.AccessLogRepository;
 import java.math.BigDecimal;
 import org.springframework.data.domain.Page;

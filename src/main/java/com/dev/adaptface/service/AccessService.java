@@ -2,9 +2,9 @@ package com.dev.adaptface.service;
 
 import com.dev.adaptface.dto.request.AccessValidationRequestDTO;
 import com.dev.adaptface.dto.response.AccessValidationResponseDTO;
-import com.dev.adaptface.entity.Credential;
-import com.dev.adaptface.entity.Enrollment;
-import com.dev.adaptface.entity.enums.AccessResult;
+import com.dev.adaptface.entities.Credential;
+import com.dev.adaptface.entities.Enrollment;
+import com.dev.adaptface.entities.enums.AccessResult;
 import com.dev.adaptface.exceptions.BusinessException;
 import com.dev.adaptface.repository.CredentialRepository;
 import jakarta.annotation.PostConstruct;

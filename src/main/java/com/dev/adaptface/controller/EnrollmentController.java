@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/enrollments")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('EMPLOYEE')")
+@PreAuthorize("hasRole('ADMIN')")
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;

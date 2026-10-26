@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/institutions")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('EMPLOYEE')")
+@PreAuthorize("hasRole('ADMIN')")
 public class InstitutionController {
 
     private final InstitutionService institutionService;

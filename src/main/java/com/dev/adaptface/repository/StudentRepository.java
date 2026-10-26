@@ -1,6 +1,6 @@
 package com.dev.adaptface.repository;
 
-import com.dev.adaptface.entity.Student;
+import com.dev.adaptface.entities.Student;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

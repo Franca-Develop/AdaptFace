@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/registrations")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('EMPLOYEE')")
+@PreAuthorize("hasRole('ADMIN')")
 public class RegistrationController {
 
     private final RegistrationService registrationService;

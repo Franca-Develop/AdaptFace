@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.TransactionException;
-import com.dev.adaptface.entity.enums.AccessResult;
+import com.dev.adaptface.entities.enums.AccessResult;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.ServletRequestBindingException;

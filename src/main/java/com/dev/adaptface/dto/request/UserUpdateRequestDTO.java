@@ -1,7 +1,7 @@
 package com.dev.adaptface.dto.request;
 
 import java.time.LocalDate;
-import com.dev.adaptface.entity.enums.Gender;
+import com.dev.adaptface.entities.enums.Gender;
 import jakarta.validation.constraints.*;
 
 public class UserUpdateRequestDTO {

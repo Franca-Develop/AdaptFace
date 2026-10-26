@@ -42,7 +42,7 @@ public class AccessController {
 
     @GetMapping("/logs")
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<AccessLogResponseDTO>> findLogs(
             @RequestParam(required = false) Long userId, Pageable pageable) {
         return ResponseEntity.ok(accessLogService.findAll(userId, pageable));

@@ -2,8 +2,8 @@ package com.dev.adaptface.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.dev.adaptface.entity.enums.AccessResult;
-import com.dev.adaptface.entity.enums.CredentialType;
+import com.dev.adaptface.entities.enums.AccessResult;
+import com.dev.adaptface.entities.enums.CredentialType;
 
 /**
  * Linha do histórico de acessos.

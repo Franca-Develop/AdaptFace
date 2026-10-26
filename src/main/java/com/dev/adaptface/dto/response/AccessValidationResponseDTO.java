@@ -1,6 +1,6 @@
 package com.dev.adaptface.dto.response;
 
-import com.dev.adaptface.entity.enums.AccessResult;
+import com.dev.adaptface.entities.enums.AccessResult;
 
 /**
  * Resposta enviada à máquina após validar um acesso.

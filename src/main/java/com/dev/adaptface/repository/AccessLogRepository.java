@@ -1,6 +1,6 @@
 package com.dev.adaptface.repository;
 
-import com.dev.adaptface.entity.AccessLog;
+import com.dev.adaptface.entities.AccessLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

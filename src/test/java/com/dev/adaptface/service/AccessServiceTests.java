@@ -9,12 +9,11 @@ import static org.mockito.Mockito.when;
 
 import com.dev.adaptface.dto.request.AccessValidationRequestDTO;
 import com.dev.adaptface.dto.response.AccessValidationResponseDTO;
-import com.dev.adaptface.entity.Credential;
-import com.dev.adaptface.entity.Enrollment;
-import com.dev.adaptface.entity.User;
-import com.dev.adaptface.entity.enums.AccessResult;
-import com.dev.adaptface.entity.enums.CredentialType;
-import com.dev.adaptface.exceptions.BusinessException;
+import com.dev.adaptface.entities.Credential;
+import com.dev.adaptface.entities.Enrollment;
+import com.dev.adaptface.entities.User;
+import com.dev.adaptface.entities.enums.AccessResult;
+import com.dev.adaptface.entities.enums.CredentialType;
 import com.dev.adaptface.repository.CredentialRepository;
 import java.util.List;
 import java.util.ArrayList;

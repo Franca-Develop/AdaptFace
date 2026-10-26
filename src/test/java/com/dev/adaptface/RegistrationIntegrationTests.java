@@ -10,7 +10,7 @@ import com.dev.adaptface.repository.CredentialRepository;
 import com.dev.adaptface.repository.UserRepository;
 import com.dev.adaptface.dto.request.InstitutionRequestDTO;
 import com.dev.adaptface.dto.request.UserRequestDTO;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.enums.UserType;
 import com.dev.adaptface.service.InstitutionService;
 import com.dev.adaptface.service.UserService;
 import com.jayway.jsonpath.JsonPath;

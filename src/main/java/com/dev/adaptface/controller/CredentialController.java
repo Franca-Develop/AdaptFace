@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/enrollments/{enrollmentId}/credentials")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('EMPLOYEE')")
+@PreAuthorize("hasRole('ADMIN')")
 public class CredentialController {
 
     private final CredentialService credentialService;

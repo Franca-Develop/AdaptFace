@@ -1,7 +1,7 @@
 package com.dev.adaptface.dto.response;
 
 import java.time.LocalDateTime;
-import com.dev.adaptface.entity.enums.AccessResult;
+import com.dev.adaptface.entities.enums.AccessResult;
 
 /**
  * Formato padrão de erro da API (usado pelo GlobalExceptionHandler).

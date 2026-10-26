@@ -1,9 +1,9 @@
-package com.dev.adaptface.entity;
+package com.dev.adaptface.entities;
 
 import java.time.LocalDate;
 
-import com.dev.adaptface.entity.enums.Gender;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.enums.Gender;
+import com.dev.adaptface.entities.enums.UserType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -5,8 +5,8 @@ import com.dev.adaptface.dto.request.InstitutionRequestDTO;
 import com.dev.adaptface.dto.request.LoginRequestDTO;
 import com.dev.adaptface.dto.request.UserRequestDTO;
 import com.dev.adaptface.dto.response.LoginResponseDTO;
-import com.dev.adaptface.entity.User;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.User;
+import com.dev.adaptface.entities.enums.UserType;
 import com.dev.adaptface.exceptions.BusinessException;
 import com.dev.adaptface.repository.UserRepository;
 import com.dev.adaptface.security.JwtService;
@@ -66,6 +66,7 @@ public class AuthService {
 
         LoginResponseDTO response = new LoginResponseDTO();
         response.setToken(jwtService.generateToken(user));
+        response.setUserType(user.getUserType());
         return response;
     }
 
@@ -74,7 +75,7 @@ public class AuthService {
         if (!matches(informedKey, bootstrapKey)) {
             throw new BusinessException("Chave de configuração inicial inválida");
         }
-        if (userRepository.existsByUserType(UserType.EMPLOYEE)) {
+        if (userRepository.existsByUserType(UserType.ADMIN)) {
             throw new BusinessException("Configuração inicial já realizada");
         }
 
@@ -91,7 +92,7 @@ public class AuthService {
         userRequest.setPhone(request.getPhone());
         userRequest.setBirthDate(request.getBirthDate());
         userRequest.setGender(request.getGender());
-        userRequest.setUserType(UserType.EMPLOYEE);
+        userRequest.setUserType(UserType.ADMIN);
         userRequest.setDepartment(request.getDepartment());
         Long userId = userService.create(userRequest).getId();
 
@@ -99,6 +100,7 @@ public class AuthService {
                 .orElseThrow(() -> new BusinessException("Não foi possível concluir a configuração inicial"));
         LoginResponseDTO response = new LoginResponseDTO();
         response.setToken(jwtService.generateToken(user));
+        response.setUserType(user.getUserType());
         return response;
     }
 
@@ -109,6 +111,6 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public boolean requiresSetup() {
-        return !userRepository.existsByUserType(UserType.EMPLOYEE);
+        return !userRepository.existsByUserType(UserType.ADMIN);
     }
 }

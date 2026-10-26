@@ -1,6 +1,6 @@
 package com.dev.adaptface.dto.request;
 
-import com.dev.adaptface.entity.enums.Gender;
+import com.dev.adaptface.entities.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

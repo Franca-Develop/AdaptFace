@@ -2,8 +2,8 @@ package com.dev.adaptface.dto.request;
 
 import java.time.LocalDate;
 
-import com.dev.adaptface.entity.enums.Gender;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.enums.Gender;
+import com.dev.adaptface.entities.enums.UserType;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,6 +1,6 @@
 package com.dev.adaptface.repository;
 
-import com.dev.adaptface.entity.Institution;
+import com.dev.adaptface.entities.Institution;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

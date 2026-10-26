@@ -1,7 +1,7 @@
 package com.dev.adaptface.repository;
 
-import com.dev.adaptface.entity.User;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.User;
+import com.dev.adaptface.entities.enums.UserType;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

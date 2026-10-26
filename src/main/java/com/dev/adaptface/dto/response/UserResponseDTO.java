@@ -1,8 +1,8 @@
 package com.dev.adaptface.dto.response;
 
 import java.time.LocalDate;
-import com.dev.adaptface.entity.enums.Gender;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.enums.Gender;
+import com.dev.adaptface.entities.enums.UserType;
 
 /**
  * Dados públicos do usuário (nunca inclui a senha).

@@ -1,6 +1,6 @@
 package com.dev.adaptface.security;
 
-import com.dev.adaptface.entity.User;
+import com.dev.adaptface.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

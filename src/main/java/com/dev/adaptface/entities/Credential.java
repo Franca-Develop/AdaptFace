@@ -1,4 +1,4 @@
-package com.dev.adaptface.entity;
+package com.dev.adaptface.entities;
 
 import java.util.List;
 

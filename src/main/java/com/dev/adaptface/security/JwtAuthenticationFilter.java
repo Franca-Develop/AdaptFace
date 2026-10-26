@@ -1,6 +1,6 @@
 package com.dev.adaptface.security;
 
-import com.dev.adaptface.entity.User;
+import com.dev.adaptface.entities.User;
 import com.dev.adaptface.repository.UserRepository;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;

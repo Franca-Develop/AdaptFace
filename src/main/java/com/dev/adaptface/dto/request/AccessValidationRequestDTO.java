@@ -1,6 +1,6 @@
 package com.dev.adaptface.dto.request;
 
-import com.dev.adaptface.entity.enums.CredentialType;
+import com.dev.adaptface.entities.enums.CredentialType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

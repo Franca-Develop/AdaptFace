@@ -3,7 +3,7 @@ package com.dev.adaptface;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.dev.adaptface.dto.request.BootstrapRequestDTO;
-import com.dev.adaptface.entity.enums.UserType;
+import com.dev.adaptface.entities.enums.UserType;
 import com.dev.adaptface.exceptions.BusinessException;
 import com.dev.adaptface.repository.UserRepository;
 import com.dev.adaptface.service.AuthService;
@@ -47,7 +47,7 @@ class BootstrapConcurrencyMySqlTests {
             var two = executor.submit(second);
             int successes = (one.get(30, TimeUnit.SECONDS) ? 1 : 0) + (two.get(30, TimeUnit.SECONDS) ? 1 : 0);
             assertThat(successes).isEqualTo(1);
-            assertThat(users.findAll().stream().filter(user -> user.getUserType() == UserType.EMPLOYEE).count())
+            assertThat(users.findAll().stream().filter(user -> user.getUserType() == UserType.ADMIN).count())
                     .isEqualTo(1);
             assertThat(auth.requiresSetup()).isFalse();
         } finally {

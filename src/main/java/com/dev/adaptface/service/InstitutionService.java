@@ -2,7 +2,7 @@ package com.dev.adaptface.service;
 
 import com.dev.adaptface.dto.request.InstitutionRequestDTO;
 import com.dev.adaptface.dto.response.InstitutionResponseDTO;
-import com.dev.adaptface.entity.Institution;
+import com.dev.adaptface.entities.Institution;
 import com.dev.adaptface.repository.InstitutionRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;

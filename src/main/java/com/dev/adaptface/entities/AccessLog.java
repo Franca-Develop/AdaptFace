@@ -1,9 +1,9 @@
-package com.dev.adaptface.entity;
+package com.dev.adaptface.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.dev.adaptface.entity.enums.AccessResult;
-import com.dev.adaptface.entity.enums.CredentialType;
+import com.dev.adaptface.entities.enums.AccessResult;
+import com.dev.adaptface.entities.enums.CredentialType;
 import jakarta.persistence.*;
 
 /**

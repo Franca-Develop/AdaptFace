@@ -1,4 +1,4 @@
-package com.dev.adaptface.entity.enums;
+package com.dev.adaptface.entities.enums;
 
 /**
  * Forma de identificação usada em uma tentativa de acesso.

@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.dev.adaptface.controller.AccessController;
-import com.dev.adaptface.entity.Credential;
-import com.dev.adaptface.entity.Enrollment;
-import com.dev.adaptface.entity.User;
+import com.dev.adaptface.entities.Credential;
+import com.dev.adaptface.entities.Enrollment;
+import com.dev.adaptface.entities.User;
 import com.dev.adaptface.exceptions.GlobalExceptionHandler;
 import com.dev.adaptface.repository.AccessLogRepository;
 import com.dev.adaptface.repository.CredentialRepository;

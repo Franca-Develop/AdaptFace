@@ -1,4 +1,4 @@
-package com.dev.adaptface.entity.enums;
+package com.dev.adaptface.entities.enums;
 
 public enum Gender {
 	MALE,
