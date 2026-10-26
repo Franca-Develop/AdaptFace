@@ -9,7 +9,7 @@ function response(body: string, ok = true, status = ok ? 200 : 400): Response {
 
 async function fillRequiredFields() {
   await userEvent.type(screen.getByLabelText("Nome completo"), "Maria Silva");
-  await userEvent.type(screen.getByLabelText("CPF"), "52998224725");
+  await userEvent.type(screen.getByLabelText(/^CPF/), "52998224725");
   await userEvent.type(screen.getByLabelText("E-mail"), "maria@senai.br");
   await userEvent.type(screen.getByLabelText("Senha inicial"), "senha12345");
   await userEvent.type(screen.getByLabelText("ID da instituição"), "1");
@@ -39,10 +39,20 @@ describe("Registration", () => {
     global.fetch = jest.fn();
   });
 
-  test("exige foto antes de acessar os serviços", () => {
+  test("exige foto antes de acessar os serviços", async () => {
     render(<Registration token="jwt" onUnauthorized={jest.fn()} />);
+    await userEvent.type(screen.getByLabelText(/^CPF/), "52998224725");
     fireEvent.submit(screen.getByRole("button", { name: /Validar e cadastrar/ }).closest("form")!);
     expect(screen.getByRole("status")).toHaveTextContent("Adicione uma foto frontal");
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  test("formata e recusa CPF matematicamente inválido", async () => {
+    render(<Registration token="jwt" onUnauthorized={jest.fn()} />);
+    await userEvent.type(screen.getByLabelText(/^CPF/), "11111111111");
+    expect(screen.getByLabelText(/^CPF/)).toHaveValue("111.111.111-11");
+    fireEvent.submit(screen.getByRole("button", { name: /Validar e cadastrar/ }).closest("form")!);
+    expect(screen.getByRole("status")).toHaveTextContent("Informe um CPF válido");
     expect(global.fetch).not.toHaveBeenCalled();
   });
 
@@ -73,6 +83,7 @@ describe("Registration", () => {
     expect(registrationCall[0]).toBe("/api/registrations");
     expect((options.headers as Record<string, string>).Authorization).toBe("Bearer jwt-admin");
     expect(payload.user).toMatchObject({ userType: "STUDENT", registrationNumber: 4321, course: "ADS", institutionId: 1 });
+    expect(payload.user.cpf).toBe("52998224725");
     expect(payload.faceEmbedding).toHaveLength(512);
     expect(screen.getByLabelText("Nome completo")).toHaveValue("");
   });

@@ -104,10 +104,12 @@ input:focus, select:focus { border-color: #222; box-shadow: 0 0 0 3px #e5e5e3; }
 
 .login-page { min-height: calc(100vh - 105px); display: grid; place-items: center; padding: 48px 0; }
 .login-card { width: min(100%, 420px); padding: 36px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.setup-card { width: min(100%, 520px); }
 .login-card h1 { font-size: 38px; line-height: 1.05; letter-spacing: -2px; }
 .login-card > p { margin: 16px 0 28px; color: var(--muted); font-size: 14px; line-height: 1.55; }
 .login-card label { display: flex; flex-direction: column; gap: 7px; margin-top: 16px; color: #444; font-size: 12px; font-weight: 650; }
 .login-card .login-error { margin: 14px 0 0; color: #b40815; font-size: 13px; }
+.secondary-button { width: 100%; margin-top: 10px; min-height: 42px; border: 1px solid #cececb; border-radius: 7px; background: transparent; color: #333; font-weight: 650; }
 
 @keyframes pulse { to { opacity: .4; } }
 

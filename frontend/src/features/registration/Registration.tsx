@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { cpfDigits, formatCpf, isValidCpf } from "../../utils/cpf";
 
 type ApiError = { message?: string; errors?: Record<string, string> };
 type EmbeddingResponse = { embedding: number[]; faceModel: string; message?: string };
@@ -21,12 +22,18 @@ type RegistrationProps = { token: string; onUnauthorized: () => void };
 export function Registration({ token, onUnauthorized }: RegistrationProps) {
   const [type, setType] = useState("STUDENT");
   const [photo, setPhoto] = useState<File | null>(null);
+  const [cpf, setCpf] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [notice, setNotice] = useState("");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formElement = event.currentTarget;
+    if (!isValidCpf(cpf)) {
+      setStatus("error");
+      setNotice("Informe um CPF válido no formato 000.000.000-00.");
+      return;
+    }
     if (!photo) {
       setStatus("error");
       setNotice("Adicione uma foto frontal para continuar.");
@@ -57,7 +64,7 @@ export function Registration({ token, onUnauthorized }: RegistrationProps) {
       const payload = {
         user: {
           name: form.get("name"),
-          cpf: form.get("cpf"),
+          cpf: cpfDigits(cpf),
           email: form.get("email"),
           password: form.get("password"),
           phone: form.get("phone") || null,
@@ -86,6 +93,7 @@ export function Registration({ token, onUnauthorized }: RegistrationProps) {
       setNotice(`${created.name} cadastrado com sucesso. Matrícula facial ${created.enrollmentId}.`);
       formElement.reset();
       setPhoto(null);
+      setCpf("");
     } catch (error) {
       setStatus("error");
       setNotice(error instanceof Error ? error.message : "Não foi possível concluir o cadastro.");
@@ -98,7 +106,7 @@ export function Registration({ token, onUnauthorized }: RegistrationProps) {
       <form className="registration-form" onSubmit={submit}>
         <div className="form-section"><div className="section-number">01</div><div className="fields"><h2>Informações pessoais</h2><div className="field-grid">
           <label className="wide">Nome completo<input name="name" autoComplete="name" required /></label>
-          <label>CPF<input name="cpf" inputMode="numeric" pattern="\d{11}" maxLength={11} required /></label>
+          <label>CPF<input name="cpf" inputMode="numeric" placeholder="000.000.000-00" value={cpf} onChange={(event) => setCpf(formatCpf(event.target.value))} maxLength={14} aria-describedby="cpf-help" required /><small id="cpf-help">Digite os 11 números; a pontuação é aplicada automaticamente.</small></label>
           <label>E-mail<input name="email" type="email" required /></label>
           <label>Senha inicial<input name="password" type="password" minLength={8} maxLength={72} required /></label>
           <label>Telefone<input name="phone" /></label>

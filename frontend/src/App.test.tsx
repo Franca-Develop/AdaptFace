@@ -20,7 +20,7 @@ function response(body: unknown, ok = true): Response {
 describe("App", () => {
   beforeEach(() => {
     history.pushState({}, "", "/");
-    global.fetch = jest.fn();
+    global.fetch = jest.fn().mockResolvedValue(response({ requiresSetup: false }));
   });
 
   test("abre somente o terminal na rota pública", () => {
@@ -77,5 +77,30 @@ describe("App", () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "expirar" }));
     expect(await screen.findByRole("heading", { name: "Acesso administrativo" })).toBeInTheDocument();
+  });
+
+  test("configura o primeiro ADMIN quando o backend solicita bootstrap", async () => {
+    history.pushState({}, "", "/admin");
+    (global.fetch as jest.Mock).mockImplementation((url: string) => {
+      if (url === "/api/auth/setup-status") return Promise.resolve(response({ requiresSetup: true }));
+      return Promise.resolve(response({ token: "jwt-inicial", userType: "ADMIN" }));
+    });
+    render(<App />);
+    await userEvent.click(await screen.findByRole("button", { name: "Configurar primeiro administrador" }));
+    await userEvent.type(screen.getByLabelText("Instituição"), "SENAI Mangal");
+    await userEvent.type(screen.getByLabelText("Nome completo"), "Maria Admin");
+    await userEvent.type(screen.getByLabelText("CPF"), "52998224725");
+    expect(screen.getByLabelText("CPF")).toHaveValue("529.982.247-25");
+    await userEvent.type(screen.getByLabelText("E-mail administrativo"), "admin@senai.br");
+    await userEvent.type(screen.getByLabelText("Senha"), "admin12345");
+    await userEvent.type(screen.getByLabelText("Departamento"), "Administração");
+    await userEvent.type(screen.getByLabelText("Chave de configuração"), "12345678901234567890123456789012");
+    await userEvent.click(screen.getByRole("button", { name: "Criar administrador" }));
+    expect(await screen.findByText("cadastro com jwt-inicial")).toBeInTheDocument();
+    const bootstrapCall = (global.fetch as jest.Mock).mock.calls.find(([url]) => url === "/api/auth/bootstrap");
+    expect(bootstrapCall).toBeDefined();
+    const options = bootstrapCall![1] as RequestInit;
+    expect((options.headers as Record<string, string>)["X-Bootstrap-Key"]).toHaveLength(32);
+    expect(JSON.parse(String(options.body)).cpf).toBe("52998224725");
   });
 });

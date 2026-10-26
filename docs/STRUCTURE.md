@@ -11,7 +11,7 @@ adaptface/
 ├── controller/                    Recebe HTTP, valida o DTO, chama o service. Sem regra de negócio.
 ├── service/                       Regras de negócio e @Transactional. Converte entity <-> DTO.
 ├── repository/                    Interfaces Spring Data JPA (acesso ao banco). Sem regra de negócio.
-├── entity/                        Tabelas do banco (@Entity)
+├── entities/                      Tabelas do banco (@Entity)
 │   └── enums/                     Enums usados pelas entidades e DTOs
 ├── dto/
 │   ├── request/                   O que a API recebe (com validações @NotBlank, @Email...)
@@ -30,7 +30,7 @@ Regra de dependência (sempre nesse sentido, nunca ao contrário):
 | Entidade | Tabela | Para que serve |
 |---|---|---|
 | Institution | institutions | Escola/faculdade dona dos usuários |
-| User | users | Login + dados pessoais de qualquer pessoa (`userType` = STUDENT ou EMPLOYEE) |
+| User | users | Login + dados pessoais (`userType` = STUDENT, EMPLOYEE ou ADMIN) |
 | Student | students | Perfil do aluno (RM, período, curso). Mesmo id do User |
 | Employee | employees | Perfil do funcionário (departamento). Mesmo id do User |
 | Enrollment | enrollments | Matrícula no controle de acesso (ativa/inativa). Liga User, Credential e AccessLog |
@@ -47,7 +47,7 @@ Relações: `Institution 1—N User`, `User 1—1 Student|Employee`, `User 1—1
 | Cadastro | Enrollment |
 | Credencial | Credential |
 | Maquina (era o histórico de acessos) | AccessLog |
-| TipoUsuario (ALUNO, FUNCIONARIO) | UserType (STUDENT, EMPLOYEE) |
+| TipoUsuario (ALUNO, FUNCIONARIO) | UserType (STUDENT, EMPLOYEE, ADMIN) |
 | TipoCredencial (FACIAL, RFID, CODIGO) | CredentialType (FACE, RFID, CODE) |
 | ResultadoAcesso (LIBERADO, NEGADO) | AccessResult (GRANTED, DENIED) |
 | RegistroAcessoService / AcessoService | AccessLogService / AccessService |

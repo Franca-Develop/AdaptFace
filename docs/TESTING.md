@@ -2,6 +2,20 @@
 
 Execute os comandos a partir da raiz do projeto.
 
+## Java — Maven/JUnit
+
+```powershell
+.\mvnw.cmd test
+```
+
+Somente a documentação OpenAPI:
+
+```powershell
+.\mvnw.cmd -Dtest=OpenApiDocumentationTests test
+```
+
+Os testes opcionais que usam MySQL real exigem as variáveis `AUDIT_MYSQL_URL`, `AUDIT_MYSQL_USER` e `AUDIT_MYSQL_PASSWORD`. Não aponte essas variáveis para o banco de uso normal.
+
 ## React — Jest
 
 Execução única:
@@ -52,3 +66,30 @@ Para executar diretamente no Python local, instale primeiro as dependências de 
 cd vision-service
 python -m unittest discover -s tests -v
 ```
+
+## Docker — integração dos contêineres
+
+No PowerShell:
+
+```powershell
+.\scripts\test-docker.ps1
+```
+
+O script valida o Compose, constrói todas as imagens, inicia os serviços e confirma:
+
+- React em `http://localhost:3000/`;
+- contrato OpenAPI em `http://localhost:8080/v3/api-docs`;
+- visão em `http://localhost:3000/vision/health`.
+
+Os contêineres permanecem ativos para inspeção. Para encerrá-los sem apagar dados:
+
+```powershell
+docker compose down
+```
+
+## Testes manuais recomendados
+
+- câmera negada, rosto desconhecido, foto/tela e sessão expirada;
+- login de ADMIN, tentativa de aluno e JWT expirado;
+- cadastro de aluno e funcionário, CPF inválido/duplicado e embedding inválido;
+- banco e serviço de visão indisponíveis, confirmando que o acesso permanece negado.
