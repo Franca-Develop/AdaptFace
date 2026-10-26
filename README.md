@@ -86,28 +86,23 @@ A [auditoria técnica](docs/AUDIT.md) registra resultados, arquivos alterados e 
 
 ## Docker
 
-O Compose executa a API e um MySQL 8.4 isolado. O banco não é publicado na máquina e seus dados ficam no volume `adaptface_mysql_data`.
+O Compose executa toda a aplicação: React servido pelo Nginx, reconhecimento Python com DeepFace/OpenCV, API Spring Boot e MySQL 8.4. O banco e o serviço facial não são publicados diretamente. Os dados e modelos ficam nos volumes `adaptface_mysql_data` e `deepface_models`.
 
-Crie o arquivo local de variáveis e substitua todos os valores de exemplo:
+No Windows, o inicializador cria o `.env` com segredos aleatórios quando necessário, preserva as credenciais dos containers existentes, constrói tudo e abre a interface:
 
 ```powershell
-Copy-Item .env.example .env
-$jwt = [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
-$machineKey = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLower()
-$bootstrapKey = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLower()
+.\scripts\start-all.ps1
 ```
 
-Coloque os três valores gerados em `JWT_SECRET`, `MACHINE_API_KEY` e `BOOTSTRAP_KEY` no `.env`. O arquivo `.env` é ignorado pelo Git.
-
-Valide e inicie:
+Também é possível configurar manualmente copiando `.env.example` para `.env` e executar:
 
 ```powershell
 docker compose config --quiet
 docker compose up --build -d
 docker compose ps
-docker compose logs -f api
+docker compose logs -f
 ```
 
-A API ficará em `http://localhost:8080`, ou na porta definida em `API_PORT`. Para parar sem apagar o banco, use `docker compose down`. Não use `docker compose down -v` em um ambiente com dados que precisam ser preservados.
+A aplicação fica em `http://localhost:3000`, ou na porta definida em `FRONTEND_PORT`. A API continua disponível em `http://localhost:8080`. Para parar sem apagar dados ou modelos, use `docker compose down`. Não use `docker compose down -v` em um ambiente com dados que precisam ser preservados.
 
 Em produção, aplique a migração revisada antes de definir `DB_SCHEMA_MODE=validate`. A imagem roda como usuário sem privilégios, não contém segredos e não inclui testes, relatórios ou arquivos locais no contexto final.
