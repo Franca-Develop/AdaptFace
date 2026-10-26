@@ -5,16 +5,22 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Tentativa enviada por um terminal. Preencha somente a credencial correspondente ao tipo.")
 public class AccessValidationRequestDTO {
 
     @NotNull(message = "Tipo de credencial é obrigatório")
+    @Schema(example = "FACE")
     private CredentialType credentialType;
 
     @Size(max = 512)
+    @ArraySchema(minItems = 512, maxItems = 512, schema = @Schema(type = "number", format = "float"))
     private List<Float> faceEmbedding;
 
     @Size(max = 64)
+    @Schema(example = "DEEPFACE_ARCFACE_OPENCV_V1")
     private String faceModel;
 
     @Size(max = 128)
@@ -25,9 +31,11 @@ public class AccessValidationRequestDTO {
 
     @NotBlank(message = "Modelo da máquina é obrigatório")
     @Size(max = 255)
+    @Schema(example = "TABLET-PORTARIA-01")
     private String machineModel;
 
     @NotNull(message = "O sentido do acesso é obrigatório")
+    @Schema(example = "true", description = "true para entrada; false para saída")
     private Boolean entry;
 
     public AccessValidationRequestDTO() {

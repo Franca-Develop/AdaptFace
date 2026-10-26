@@ -6,25 +6,32 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Instituição e primeiro administrador do ambiente")
 public class BootstrapRequestDTO {
 
     @NotBlank(message = "Nome da instituição é obrigatório")
+    @Schema(example = "SENAI Mangal")
     private String institutionName;
 
     @NotBlank(message = "Nome é obrigatório")
+    @Schema(example = "Administrador AdaptFace")
     private String name;
 
     @NotBlank(message = "CPF é obrigatório")
     @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 números")
+    @Schema(example = "52998224725", pattern = "\\d{11}")
     private String cpf;
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
+    @Schema(example = "admin@senai.br")
     private String email;
 
     @NotBlank(message = "Senha é obrigatória")
     @Size(min = 8, max = 72, message = "A senha deve possuir entre 8 e 72 caracteres")
+    @Schema(example = "senha-segura", format = "password")
     private String password;
 
     private String phone;
@@ -34,6 +41,7 @@ public class BootstrapRequestDTO {
     private Gender gender;
 
     @NotBlank(message = "Departamento é obrigatório")
+    @Schema(example = "Administração")
     private String department;
 
     public BootstrapRequestDTO() {

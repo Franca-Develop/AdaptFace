@@ -12,27 +12,33 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PastOrPresent;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Criação de usuário. registrationNumber/period/course valem para STUDENT; department vale para EMPLOYEE.
  */
+@Schema(description = "Dados pessoais. Campos acadêmicos valem para STUDENT e department para EMPLOYEE/ADMIN.")
 public class UserRequestDTO {
 
     @NotBlank(message = "Nome é obrigatório")
     @Size(max = 255)
+    @Schema(example = "Maria da Silva")
     private String name;
 
     @NotBlank(message = "CPF é obrigatório")
     @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 números")
+    @Schema(example = "52998224725", pattern = "\\d{11}")
     private String cpf;
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
     @Size(max = 255)
+    @Schema(example = "maria@aluno.senai.br")
     private String email;
 
     @NotBlank(message = "Senha é obrigatória")
     @Size(min = 8, max = 72, message = "A senha deve possuir entre 8 e 72 caracteres")
+    @Schema(example = "senha-segura", format = "password")
     private String password;
 
     @Size(max = 255)
@@ -44,19 +50,23 @@ public class UserRequestDTO {
     private Gender gender;
 
     @NotNull(message = "Tipo de usuário é obrigatório")
+    @Schema(example = "STUDENT")
     private UserType userType;
 
     @Positive
+    @Schema(example = "3640")
     private Integer registrationNumber;
     
     @NotNull(message = "ID da instituição é obrigatório")
     @Positive
+    @Schema(example = "1")
     private Long institutionId;
 
     @Size(max = 255)
     private String period;
 
     @Size(max = 255)
+    @Schema(example = "ADS")
     private String course;
 
     @Size(max = 255)

@@ -4,7 +4,10 @@ import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Cadastro transacional de pessoa, matrícula e credenciais")
 public class RegistrationRequestDTO {
 
     @Valid
@@ -13,9 +16,11 @@ public class RegistrationRequestDTO {
 
     @NotNull(message = "Foto facial é obrigatória")
     @Size(min = 512, max = 512, message = "A credencial facial deve possuir 512 valores")
+    @ArraySchema(minItems = 512, maxItems = 512, schema = @Schema(type = "number", format = "float"))
     private List<Float> faceEmbedding;
 
     @Size(max = 64)
+    @Schema(example = "DEEPFACE_ARCFACE_OPENCV_V1")
     private String faceModel;
 
     @Size(max = 128, message = "A tag RFID deve possuir no máximo 128 caracteres")

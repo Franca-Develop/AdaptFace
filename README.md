@@ -27,7 +27,7 @@ Execute com o Maven Wrapper:
 .\mvnw.cmd spring-boot:run
 ```
 
-O Swagger fica disponível em `http://localhost:8080/swagger-ui.html`.
+O Swagger fica disponível em `http://localhost:8080/swagger-ui.html` e o contrato OpenAPI em `http://localhost:8080/v3/api-docs`.
 
 ## Primeiro acesso
 
@@ -104,5 +104,12 @@ docker compose logs -f
 ```
 
 A aplicação fica em `http://localhost:3000`, ou na porta definida em `FRONTEND_PORT`. A API continua disponível em `http://localhost:8080`. Para parar sem apagar dados ou modelos, use `docker compose down`. Não use `docker compose down -v` em um ambiente com dados que precisam ser preservados.
+
+Com o Compose em execução, a documentação pode ser acessada diretamente nestes endereços:
+
+- interface Swagger: `http://localhost:8080/swagger-ui.html`
+- contrato OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+
+O Swagger vem habilitado no ambiente Docker local. Para desativá-lo em uma implantação pública, configure `SPRINGDOC_API_DOCS_ENABLED=false` e `SPRINGDOC_SWAGGER_UI_ENABLED=false` no `.env` e recrie o serviço `api`.
 
 Em produção, aplique a migração revisada antes de definir `DB_SCHEMA_MODE=validate`. A imagem roda como usuário sem privilégios, não contém segredos e não inclui testes, relatórios ou arquivos locais no contexto final.
