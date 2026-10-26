@@ -39,3 +39,7 @@ build/
 .metadata/
 .runtime/
 .env
+
+### Python ###
+__pycache__/
+*.py[cod]

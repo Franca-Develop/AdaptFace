@@ -1,0 +1,6 @@
+deepface==0.0.102
+onnxruntime>=1.28,<2
+opencv-contrib-python-headless==5.0.0.93
+numpy
+urllib3>=2.8.0,<3
+setuptools>=83.0.0
