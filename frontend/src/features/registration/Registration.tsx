@@ -4,7 +4,7 @@ type ApiError = { message?: string; errors?: Record<string, string> };
 type EmbeddingResponse = { embedding: number[]; faceModel: string; message?: string };
 type RegistrationResponse = { name: string; userId: number; enrollmentId: number };
 
-async function json<T>(response: Response): Promise<T> {
+export async function json<T>(response: Response): Promise<T> {
   const text = await response.text();
   let data: T & ApiError;
   try {

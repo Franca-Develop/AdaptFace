@@ -43,3 +43,8 @@ build/
 ### Python ###
 __pycache__/
 *.py[cod]
+
+### Tests ###
+frontend/.jest-cache/
+frontend/coverage/
+frontend/.test-tmp/
